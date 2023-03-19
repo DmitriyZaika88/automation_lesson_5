@@ -1,9 +1,13 @@
 from selene import browser, have, be, command
 import os
-
+from selenium.webdriver.common.keys import Keys
 
 def test_registration(browser_settings):
     browser.open('https://demoqa.com/automation-practice-form')
+
+    browser.execute_script('document.querySelector("#fixedban").remove()')
+    browser.element('footer').execute_script('element.remove()')
+
     browser.element('#firstName').type('Abra')
     browser.element('#lastName').type('Kadabra')
     browser.element('#userEmail').type('abrakadabra@gmail.com')
@@ -16,7 +20,9 @@ def test_registration(browser_settings):
     browser.element('[value="1997"]').click()
     browser.element('[aria-label="Choose Monday, June 30th, 1997"]').click()
     browser.element('#subjectsInput').perform(command.js.scroll_into_view)
-    browser.element('#subjectsInput').should(be.blank).type('something')
+    browser.element('#subjectsInput').click()
+    browser.element('#subjectsInput').send_keys('Arts')
+    browser.element('#subjectsInput').press(Keys.TAB)
     browser.driver.execute_script('window.scrollBy(0, 100)')
     browser.element('[for="hobbies-checkbox-1"]').click()
     browser.element('#uploadPicture').send_keys(os.getcwd() + '/wings.jpg')
@@ -34,7 +40,7 @@ def test_registration(browser_settings):
     browser.element('//tbody/tr[3]/td[2]').should(have.text('Male'))
     browser.element('//tbody/tr[4]/td[2]').should(have.text('9211234567'))
     browser.element('//tbody/tr[5]/td[2]').should(have.text('30 June,1997'))
-    browser.element('//tbody/tr[6]/td[2]').should(have.text('something'))
+    browser.element('//tbody/tr[6]/td[2]').should(have.text('Arts'))
     browser.element('//tbody/tr[7]/td[2]').should(have.exact_text('Sports'))
     browser.element('//tbody/tr[8]/td[2]').should(have.text('wings.jpg'))
     browser.driver.execute_script('window.scrollBy(0, 100)')
