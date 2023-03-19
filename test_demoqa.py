@@ -2,6 +2,7 @@ from selene import browser, have, be, command
 import os
 from selenium.webdriver.common.keys import Keys
 
+
 def test_registration(browser_settings):
     browser.open('https://demoqa.com/automation-practice-form')
 
